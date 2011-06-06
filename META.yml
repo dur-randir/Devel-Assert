@@ -1,0 +1,21 @@
+---
+abstract: 'assertions support for perls >= 5.8.1'
+author:
+  - 'Sergey Aleynikov <sergey.aleynikov@gmail.com>'
+distribution_type: module
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Devel-Assert
+no_index:
+  directory:
+    - inc
+    - t
+requires:
+  Devel::Declare: 0.005007
+  Carp: 0
+  perl: 5.8.1
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.02

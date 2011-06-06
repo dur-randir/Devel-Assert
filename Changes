@@ -1,0 +1,8 @@
+Revision history for Devel::Assert.
+
+0.01	2009-06-26
+		- initial release
+0.02	2009-07-23
+		- no code change,
+		just upgrade to newer Devel::Declare version,
+		so we have less restrictions (for ex., line numbers)

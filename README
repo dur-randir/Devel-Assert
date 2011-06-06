@@ -1,0 +1,205 @@
+NAME
+    Devel::Assert - assertions support for perls >= 5.8.1
+
+SYNOPSIS
+            use Devel::Assert;
+            sub my_sqrt{
+                    my $num = shift;
+                
+                    assert($num > 0);
+                    return sqrt($num);
+            }
+            #this will fail with built-in sqrt's message, 'cos of assert() is compiled as no-op
+            my_sqrt(-12);
+        
+            use Devel::Assert -all, -verbose;
+            sub my_sqrt{
+                    my $num = shift;
+                
+                    assert($num > 0);
+                    return sqrt($num);
+            }
+            #this will fail with "Assertion '$num > 0' failed
+            #       guessing variables... $num = '-12'
+            #       at ..., line ..."
+            my_sqrt(-12);
+
+FEATURES
+    * assert() function is replaced with no-op at compile stage for release
+      builds
+
+    * precise diagnostics for what and where happened
+
+    * Not a source filter (magic for syntax is provided by Devel::Declare)
+
+DESCRIPTION
+    When writing code, you always make some assumptions (correct or not)
+    about incoming data, results of internal or external function call, etc.
+    Using assertions is a way to document these assumptions, thus making
+    your program more reliable by forcing them.
+
+            #       old way:
+            #data should be non-empty array
+            my @values = process_data(@data); #values contains same element count as data
+        
+            #       new way:
+            assert(scalar @data);
+            my @values = process_data(@data);
+            assert(scalar @data == scalar @values);
+
+    But what about more code to execute? Often unnecessary code is beeing
+    cut of by postfixing it with 'if DEBUG' (and declaring DEBUG as a
+    constant), but for Devel::Assert that isn't necessary. "assert" call is
+    only really compiled for debug builds - by changing just a single import
+    line, you can make all them no-ops, causing no overhead (except for
+    compile time, of course).
+
+            #       old way:
+            sub DEBUG () { 1 }
+            die 'no data given' if DEBUG && !@data;
+            my @values = process_data(@data);
+            die 'wrong count' if DEBUG && (scalar @data != scalar @values);
+        
+            #       new way:
+            use Devel::Assert -all;
+            assert(scalar @data);
+            my @values = process_data(@data);
+            assert(scalar @data == scalar @values);
+
+    Furthermore, by using "-verbose" mode, you can not only get description
+    of where failure occured, but also what has exactly failed.
+
+            #       old way:
+            die 'no data given' if DEBUG && !@data;
+            my @values = process_data(@data);
+            if (DEBUG && (scalar @data != scalar @values)){
+              require Data::Dumper;
+              Data::Dumper->import('Dumper');
+              die "Data and values count mismatch: ".Dumper(\@data).Dumper(\@values);
+            }
+        
+            #       new way:
+            use Devel::Assert -all, -verbose;
+            assert(scalar @data);
+            my @values = process_data(@data);
+            assert(scalar @data == scalar @values);
+
+    So, the more debug info you need - the less code you write.
+
+CONFIGURATION
+    When you're use'ing Devel::Assert, you should specify parsing mode for
+    assert call. That's done by passing one of the following to "import":
+
+    "-all"
+        Starting with this point, all assert() calls are really done and
+        your assertions are checked for all subsequently compiled modules,
+        regardless of their import() option. This can be used in your main
+        program, for example, before any other modules used (global debug
+        mode).
+
+    "-none"
+        Starting with this point, all assert() calls are changed to no-op
+        for all subsequently compiled modules, regardless of their import()
+        option. This can be used in your main program, for example, before
+        any other modules used (global release mode).
+
+        Note: first occurence of "-all" or "-none" takes precedence of all
+        further ones.
+
+    any boolean 'true'
+        In this module, assert() calls are really done and your assertions
+        are checked (debug mode).
+
+    any boolean 'false' (or nothing)
+        In this module, assert() calls are changed to no-op (release mode).
+
+    "-verbose"
+        This is special control value, that can be added to normal options.
+        In the "-verbose" mode, in case of assertion failure, Devel::Assert
+        will try to dump all lexical variables that are mentioned in failed
+        code. That's done through Data::Dumper and PadWalker - without these
+        modules, "-verbose" mode will fall back to default behaviour, with
+        warning emitted.
+
+        Here is sample output:
+
+                Assertion ' scalar @y < $x ' failed, trying to determine acting variables...
+                $x = 3;
+                @y = (
+                        1,
+                        2,
+                        { '4' => 'HASH(0x3d913c)' }
+                );
+                ...and all this happened at test.pl line 10
+                        main::__ANON__() called at test.pl line 13
+                        main::z() called at test.pl line 17
+
+DISABLING ASSERTIONS
+    To temporary disable assertions (at compile time, turning them to
+    no-ops), you can do the following trick:
+
+            no Devel::Assert;
+            <some code with assertions that would not trigger even under '-all'>
+            use Devel::Assert q/1/;
+            <code with assertions turned on>
+
+    Note: 'no Devel::Assert' is not lexically scoped. It's effect
+    prolongates till module end or next 'use Devel::Assert'.
+
+FAILURE HOOKS & RUN-TIME CONFIGURATION
+    In case of assertion failure, depending on "-verbose" flag was set or
+    not, Devel::Assert calls some internal callbacks that generates messages
+    that you see by default. By calling (always fully qualified) sub
+    "set_options", you can change default behavior. Also, through the same
+    call, you can change "-verbose" status at run-time.
+
+            Devel::Assert::set_options(
+                    verbose      => 1,
+                    hook_terse   => \&some_sub,
+                    hook_verbose => \&another_sub,
+            );
+
+    "verbose"
+        Change assertions verbosity status at run-time
+
+    "hook_terse"
+        Called with one or two arguments. First one is always a failed
+        assertion text ('$num > 0'). Second, if present, is a message
+        generated from "hook_verbose".
+
+        Default behaviour for "hook_terse" is to call "Carp::confess".
+
+    "hook_verbose"
+        Called with one argument - failed assertion text. Overriding this
+        seems to be of little use, and provided here only for completeness.
+
+        By default, calls "hook_terse" with arguments described above.
+
+CAVEATS
+    One subroutine - "assert" - is exported to the caller namespace.
+
+    If you place argument to assert() at more then one line, then source
+    code line numbering will shift.
+
+    Parser detail - you must specify parentheses for assert call:
+
+            assert 3 < 5;   #wrong!
+            assert (3 < 5); #ok
+
+SEE ALSO
+    assertions - for perls >= 5.9.0 only, different syntax (code
+    attributes).
+
+    Carp::Assert - requires nasty 'if DEBUG' suffix.
+
+AUTHOR
+    Sergey Aleynikov <sergey.aleynikov@gmail.com>
+
+LICENSE
+    Copyright (c) 2009 by Sergey Aleynikov. This program is free software;
+    you can redistribute it and/or modify it under the same terms as Perl
+    itself.
+
+    Some part for parser are taken from Devel::Declare::Context::Simple, (c)
+    Rhesa Rozendaal (?).
+
