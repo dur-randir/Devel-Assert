@@ -2,6 +2,21 @@
 package Devel::Assert;
 
 use strict;
+use PadWalker;
+use Data::Printer {
+  class => {
+    internals  	=> 1,
+    methods    	=> 0,
+  },
+  indent        => 2,
+  hash_separator => ' => ',
+  max_depth		=> 1,
+  array         => {
+    max_size    => 5,
+    start       => 3,
+    end         => 1,
+  },  
+};
 use Devel::Declare ();
 use Devel::Assert::Parser;
 
@@ -10,10 +25,7 @@ my $ASSERT_STATUS = {};
 my $ASSERT_CONDS = {};
 my $cond_counter = 0;
 
-$Carp::Internal{'Devel::Assert'}++;
-$Carp::Internal{'Devel::Declare'}++;
-
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 my $fail_actions = {
 	verbose			=> 0,
@@ -35,7 +47,7 @@ sub import{
 	if (!defined($FORCE_ASSERTS) && $flag){
 		if ($flag eq '-none'){
 			$FORCE_ASSERTS = 0;
-		}elsif($flag eq '-all'){
+		}elsif ($flag eq '-all'){
 			$FORCE_ASSERTS = 1;
 		}
 	}
@@ -48,7 +60,7 @@ sub import{
 
 	if (scalar @_ == 1 && $_[0] eq '-verbose'){
 		$fail_actions->{'verbose'} = 1;
-	}elsif(scalar @_){
+	}elsif (scalar @_){
 		require Carp;
 		Carp::croak('Wrong options supplied for Devel::Assert');
 	}
@@ -133,16 +145,6 @@ sub hook_terse{
 
 sub hook_verbose{
 	my $message = shift;
-
-	eval { require Data::Dumper; 1 } or do {
-		warn "Asked for detailed variables report, but no 'Data::Dumper' found\n";
-		return $fail_actions->{'hook_terse'}->($message);
-	};
-
-	eval { require PadWalker; 1 } or do {
-		warn "Asked for detailed variables report, but no 'PadWalker' found\n";
-		return $fail_actions->{'hook_terse'}->($message);
-	};
 
 	my $tail = ", trying to determine acting variables...";
 	my @var_list = ();

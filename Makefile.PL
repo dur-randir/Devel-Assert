@@ -12,8 +12,10 @@ license 'perl';
 test_requires 'Test::More';
 test_requires 'Test::Exception';
 
-requires 'Carp';
-requires 'Devel::Declare' => '0.005007';
+requires 'Devel::Declare' => '0.006003';
+requires 'Devel::StackTrace' => '1.25';
+requires 'Data::Printer' => '0.17';
+requires 'PadWalker' => '1.92';
 
 system 'pod2text lib/Devel/Assert.pod > README';
 

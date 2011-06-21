@@ -12,10 +12,13 @@ no_index:
   directory:
     - inc
     - t
+    - lib/Devel/Assert
 requires:
-  Devel::Declare: 0.005007
-  Carp: 0
+  Devel::Declare: 0.006003
   perl: 5.8.1
+  Devel::StackTrace: 1.25
+  Data::Printer: 0.17
+  PadWalker: 1.92
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.02
+version: 0.03
