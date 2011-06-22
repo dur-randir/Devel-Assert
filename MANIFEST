@@ -23,4 +23,4 @@ t/14_options.t
 t/15_options.t
 t/16_hooks.t
 t/17_parser_fail.t
-t/17_hooks_verbose.t
+t/18_hooks_verbose.t
