@@ -178,9 +178,6 @@ FAILURE HOOKS & RUN-TIME CONFIGURATION
 CAVEATS
     One subroutine - "assert" - is exported to the caller namespace.
 
-    If you place argument to assert() at more then one line, then source
-    code line numbering will shift.
-
     Parser detail - you must specify parentheses for assert call:
 
             assert 3 < 5;   #wrong!
