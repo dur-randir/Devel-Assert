@@ -1,7 +1,7 @@
 ---
 abstract: 'assertions support for perls >= 5.8.1'
 author:
-  - 'Sergey Aleynikov <sergey.aleynikov@gmail.com>'
+  - 'Sergey Aleynikov <randir@cpan.org>'
 distribution_type: module
 license: perl
 meta-spec:
@@ -21,4 +21,4 @@ requires:
   PadWalker: 1.92
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.03
+version: 0.04

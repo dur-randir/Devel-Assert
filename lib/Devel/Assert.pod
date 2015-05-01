@@ -2,6 +2,12 @@
 
 Devel::Assert - assertions support for perls >= 5.8.1
 
+=head1 DEPRECATION
+
+This version is deprecated, you should use 1.00 now. It uses internal Perl API that is much more
+rubust then the clunky Devel::Declare interface. This old branch remains here only to support older
+5.8.1 - 5.12.5 perls.
+
 =head1 SYNOPSIS
 
 	use Devel::Assert;

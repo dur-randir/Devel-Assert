@@ -1,5 +1,6 @@
 #!/usr/bin/perl
-package Devel::Assert::Parser;
+package #hide from PAUSE
+    Devel::Assert::Parser;
 
 use strict;
 use Devel::Declare ();

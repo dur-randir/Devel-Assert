@@ -25,7 +25,7 @@ my $ASSERT_STATUS = {};
 my $ASSERT_CONDS = {};
 my $cond_counter = 0;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 my $fail_actions = {
 	verbose			=> 0,
