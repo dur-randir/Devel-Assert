@@ -1,4 +1,4 @@
-use 5.010;
+use 5.014;
 use ExtUtils::MakeMaker;
 
 system 'pod2text lib/Devel/Assert.pod > README';
@@ -23,6 +23,6 @@ WriteMakefile(
     },
     ABSTRACT_FROM   => 'lib/Devel/Assert.pod',
     LICENSE         => 'mit',
-    MIN_PERL_VERSION=> 5.010,
+    MIN_PERL_VERSION=> 5.014,
 );
 
