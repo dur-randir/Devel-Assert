@@ -18,7 +18,7 @@ WriteMakefile(
     },
     META_MERGE      => {
         resources     => {
-            repository  => '',
+            repository  => 'https://github.com/dur-randir/Devel-Assert',
         },
     },
     ABSTRACT_FROM   => 'lib/Devel/Assert.pod',
