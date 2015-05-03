@@ -1,21 +1,21 @@
 use strict;
 use Test::Exception tests => 5;
 
-use Devel::Assert -all;
+use Devel::Assert 'global';
 
 package T_one;
 use Devel::Assert;
 use Test::Exception;
 
-lives_ok{ eval q/assert(1); 1/ or die $@};
-throws_ok{ eval q/assert(0); 1/ or die $@} qr/Assertion ' 0 ' failed/;
+lives_ok{ assert(1) };
+throws_ok{ assert(0) } qr/failed/;
 
 package T_two;
 use Devel::Assert;
 use Test::Exception;
 
-lives_ok{ eval q/assert(1); 1/ or die $@};
+lives_ok{ assert(1) };
 no Devel::Assert;
-lives_ok{ eval q/assert(1); 1/ or die $@};
+lives_ok{ assert(1) };
 use Devel::Assert;
-throws_ok{ eval q/assert(0); 1/ or die $@} qr/Assertion ' 0 ' failed/;
+throws_ok{ assert(0) } qr/failed/;
