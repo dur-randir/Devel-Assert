@@ -8,9 +8,6 @@ WriteMakefile(
     VERSION_FROM    => 'lib/Devel/Assert.pm',
     AUTHOR          => ['Sergey Aleynikov <randir@cpan.org>'],
     PREREQ_PM       => {
-        'Devel::StackTrace' => 0,
-        'PadWalker'         => 0,
-        'Data::Printer'     => 0,
     },
     TEST_REQUIRES   => {
         'Test::More'        => 0,
