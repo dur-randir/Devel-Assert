@@ -19,7 +19,7 @@ WriteMakefile(
         },
     },
     ABSTRACT_FROM   => 'lib/Devel/Assert.pod',
-    LICENSE         => 'mit',
+    LICENSE         => 'perl',
     MIN_PERL_VERSION=> 5.014,
 );
 
