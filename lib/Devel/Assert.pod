@@ -55,7 +55,7 @@ That's just like tests, but inside your code.
 
 To temporary disable assertions you can use the following two options:
 
-	no Devel::Assert;
+    no Devel::Assert;
     # or
     use Devel::Assert 'off';
 
