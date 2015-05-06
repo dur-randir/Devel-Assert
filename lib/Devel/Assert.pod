@@ -59,26 +59,9 @@ This version significantly differs from 0.0x series. Main reason for that is to 
 L<Devel::Declare> dependency and pass all parsing work to Perl itself instead of creating own
 statement parser. Not all features are available in this release yet.
 
-=head1 DISABLING ASSERTIONS
-
-To temporary disable assertions you can use the following two options:
-
-    no Devel::Assert;
-    # or
-    use Devel::Assert 'off';
-
-But note that currently this feature is not lexically scoped. It disables checks right until the
-next 'use Devel::Assert' statement (whenever it happens). This may be quite counterintuitive.
-
-=head1 CAVEATS
-
-assert() calls in text evals do not respect compile-time mode for the current module, but
-rather take default mode - 'off', unless 'global' is in effect. If you want them 'on', import 
-L<Devel::Assert> with 'on' flag inside your eval'ed string.
-
 =head1 SEE ALSO
 
-L<assertions> - for perls >= 5.9.0, uses code attributes
+L<assertions> - uses code attributes
 
 L<Carp::Assert> - requires annoying 'if DEBUG' suffix.
 
