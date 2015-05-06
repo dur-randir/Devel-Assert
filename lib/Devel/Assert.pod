@@ -51,6 +51,14 @@ That's just like tests, but inside your code.
     use Devel::Assert 'global'; # import 'assert' function and enable it in all later 'use Devel::Assert' imports
     use Devel::Assert::Global; # the same, can be used as perl -MDevel::Assert::Global your_program.pl
 
+    use Devel::Assert 'off'; # import 'assert' function, but doesn't enable it, even when in 'global' mode
+
+=head1 CHANGES FROM 0.04
+
+This version significantly differs from 0.0x series. Main reason for that is to get rid of the
+L<Devel::Declare> dependency and pass all parsing work to Perl itself instead of creating own
+statement parser. Not all features are available in this release yet.
+
 =head1 DISABLING ASSERTIONS
 
 To temporary disable assertions you can use the following two options:
@@ -70,9 +78,11 @@ L<Devel::Assert> with 'on' flag inside your eval'ed string.
 
 =head1 SEE ALSO
 
-L<assertions> - for perls >= 5.9.0, different syntax (code attributes).
+L<assertions> - for perls >= 5.9.0, uses code attributes
 
 L<Carp::Assert> - requires annoying 'if DEBUG' suffix.
+
+L<PerlX::Assert> - based on L<Devel::Declare>
 
 =head1 AUTHOR
 
