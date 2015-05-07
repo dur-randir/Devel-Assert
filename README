@@ -39,27 +39,20 @@ USAGE
         use Devel::Assert 'global'; # import 'assert' function and enable it in all later 'use Devel::Assert' imports
         use Devel::Assert::Global; # the same, can be used as perl -MDevel::Assert::Global your_program.pl
 
-DISABLING ASSERTIONS
-    To temporary disable assertions you can use the following two options:
+        use Devel::Assert 'off'; # import 'assert' function, but doesn't enable it, even when in 'global' mode
 
-            no Devel::Assert;
-        # or
-        use Devel::Assert 'off';
-
-    But note that currently this feature is not lexically scoped. It
-    disables checks right until the next 'use Devel::Assert' statement
-    (whenever it happens). This may be quite counterintuitive.
-
-CAVEATS
-    assert() calls in text evals do not respect compile-time mode for the
-    current module, but rather take default mode - 'off', unless 'global' is
-    in effect. If you want them 'on', import Devel::Assert with 'on' flag
-    inside your eval'ed string.
+CHANGES FROM 0.04
+    This version significantly differs from 0.0x series. Main reason for
+    that is to get rid of the Devel::Declare dependency and pass all parsing
+    work to Perl itself instead of creating own statement parser. Not all
+    features are available in this release yet.
 
 SEE ALSO
-    assertions - for perls >= 5.9.0, different syntax (code attributes).
+    assertions - uses code attributes
 
     Carp::Assert - requires annoying 'if DEBUG' suffix.
+
+    PerlX::Assert - based on Devel::Declare
 
 AUTHOR
     Sergey Aleynikov <randir@cpan.org>
