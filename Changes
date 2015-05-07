@@ -1,5 +1,8 @@
 Revision history for Devel::Assert.
 
+1.01    Thu May  7 19:51:27 MSK 2015
+        - tweak API and documentation
+
 1.00    Tue May  5 20:48:29 MSK 2015
         - now for 5.14+
         - uses new perl hooks, no D::D dependency
