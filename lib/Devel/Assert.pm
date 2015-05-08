@@ -1,4 +1,5 @@
 package Devel::Assert;
+use 5.014;
 use strict;
 
 our $VERSION = '1.01';
@@ -21,15 +22,44 @@ sub import {
     }
 }
 
-sub assert_on {
-    unless ($_[0]) {
+sub assert_off {}
+
+sub assert_fail {
+    my ($op, $cop, $upcv) = @_;
+
+    # idea taken from Zefram's Debug::Show
+    # this code knows too much about B::Deparser internals
+
+    unless (state $init_done++) {
+        require B;
+        require B::Deparse;
+
         require Carp;
         $Carp::Internal{'Devel::Assert'}++;
-        Carp::confess("Assertion failed");
     }
-}
 
-sub assert_off {}
+    my $deparser = B::Deparse->new;
+    $deparser->{curcop} = $cop;
+    $deparser->{curcv}  = $upcv;
+
+    $op = $op->first if $op->sibling->isa("B::NULL");
+    my $deparsed;
+    {
+        local $@;
+        local $SIG{__DIE__};
+
+        $deparsed = eval {
+            $deparser->indent($deparser->deparse($op->sibling, 50));
+        } || "0";
+        warn $@ if $@;
+
+        $deparsed =~ s/\n[\t ]*/ /g;
+        $deparsed =~ s/^[(]//;
+        $deparsed =~ s/[)]$//;
+    }
+
+    Carp::confess("Assertion '$deparsed' failed");
+}
 
 1;
 
