@@ -47,7 +47,7 @@ PPCODE:
 } STMT_END
 
     push_b_object("B::UNOP", ((UNOP*)PL_op)->op_first);
-    push_b_object("B::COP", cxstack->blk_oldcop);
+    push_b_object("B::COP", PL_curcop);
     push_b_object("B::CV", find_context_cv(aTHX));
 
     PUTBACK;
