@@ -2,7 +2,7 @@ package Devel::Assert;
 use 5.014;
 use strict;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 our $__ASSERT_GLOBAL = 0;
 
