@@ -42,7 +42,6 @@ sub assert_fail {
     $deparser->{curcop} = $cop;
     $deparser->{curcv}  = $upcv;
 
-    $op = $op->first if $op->sibling->isa("B::NULL");
     my $deparsed;
     {
         local $@;

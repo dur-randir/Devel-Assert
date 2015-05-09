@@ -46,7 +46,10 @@ PPCODE:
     PUSHs(tmpsv);                               \
 } STMT_END
 
-    push_b_object("B::UNOP", ((UNOP*)PL_op)->op_first);
+    OP* op = ((UNOP*)PL_op)->op_first;
+    if (!op->op_sibling || op->op_sibling->op_type == OP_NULL) op = ((UNOP*)op)->op_first;
+    push_b_object("B::UNOP", op);
+
     push_b_object("B::COP", PL_curcop);
     push_b_object("B::CV", find_context_cv(aTHX));
 
