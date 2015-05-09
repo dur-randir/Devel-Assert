@@ -1,5 +1,8 @@
 Revision history for Devel::Assert.
 
+1.03    Sat May  9 21:52:50 MSK 2015
+        - minor tweaks
+
 1.02    Fri May  8 22:46:31 MSK 2015
         - show exact assertion text
 
