@@ -43,9 +43,8 @@ USAGE
 
 CHANGES FROM 0.04
     This version significantly differs from 0.0x series. Main reason for
-    that is to get rid of the Devel::Declare dependency and pass all parsing
-    work to Perl itself instead of creating own statement parser. Not all
-    features are available in this release yet.
+    that is to get rid of the Devel::Declare dependency and to pass all the
+    parsing work to Perl itself (instead of creating own statement parser).
 
 SEE ALSO
     assertions - uses code attributes
