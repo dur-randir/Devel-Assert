@@ -12,27 +12,23 @@ Devel::Assert - assertions for Perl >= 5.14
 
     assert(3 > 2); # oops, check your math
 
-=head1 FEATURES
+=head1 USAGE
 
-=over 2
+    use Devel::Assert; # import 'assert' function, but doesn't enable it
+    use Devel::Assert 'on'; # import 'assert' function and enable it
 
-=item *
+    use Devel::Assert 'global'; # import 'assert' function and enable it in all later 'use Devel::Assert' imports
+    use Devel::Assert::Global; # the same, can be used as perl -MDevel::Assert::Global your_program.pl
 
-assert() call and all it's arguments are replaced with no-ops at compile time
-
-=item *
-
-not a source filter
-
-=back
+    use Devel::Assert 'off'; # import 'assert' function, but doesn't enable it, even when in 'global' mode
 
 =head1 DESCRIPTION
 
-This module provides you with a C-like assert() function - it completely disappears
-when you don't want it. That's useful to force functions' contracts during development
-without sacrificing production performance. 
+This module provides you with a C-like assert() function. And, like in C, it only is compiled in
+debug mode - it's completely removed together with it's arguments at compile time in release mode.
+That's useful to force functions' contracts during development without sacrificing production performance. 
 
-That's just like tests, but inside your code.
+Think of an assert() being a test, but right inside your code:
 
     sub get_url {
         my ($self, $url, $cb) = @_;
@@ -43,15 +39,12 @@ That's just like tests, but inside your code.
         ...
     }
 
-=head1 USAGE
+Failed assertions are reported by L<confess> with failed test code embedded:
 
-    use Devel::Assert; # import 'assert' function, but doesn't enable it
-    use Devel::Assert 'on'; # import 'assert' function and enable it
+    Assertion 'ref $cb eq 'CODE'' failed at ...
 
-    use Devel::Assert 'global'; # import 'assert' function and enable it in all later 'use Devel::Assert' imports
-    use Devel::Assert::Global; # the same, can be used as perl -MDevel::Assert::Global your_program.pl
-
-    use Devel::Assert 'off'; # import 'assert' function, but doesn't enable it, even when in 'global' mode
+This module doesn't use source filters or any other form of source text parsing, but instead
+relies on the generated optree analysis and manipulation.
 
 =head1 CHANGES FROM 0.04
 
