@@ -4,6 +4,10 @@
 #include "perl.h"
 #include "XSUB.h"
 
+#ifndef OpSIBLING
+#define OpSIBLING(o) ((o)->op_sibling)
+#endif
+
 STATIC OP*
 assert_checker(pTHX_ OP *op, GV *namegv, SV *ckobj) {
     op_free(op);
@@ -46,9 +50,10 @@ PPCODE:
     PUSHs(tmpsv);                               \
 } STMT_END
 
-    OP* op = ((UNOP*)PL_op)->op_first;
-    if (!op->op_sibling || op->op_sibling->op_type == OP_NULL) op = ((UNOP*)op)->op_first;
-    push_b_object("B::UNOP", op);
+    OP* o = cUNOP->op_first;
+    OP* kid = OpSIBLING(o);
+    if (!kid || kid->op_type == OP_NULL) o = cUNOPo->op_first;
+    push_b_object("B::UNOP", o);
 
     push_b_object("B::COP", PL_curcop);
     push_b_object("B::CV", find_context_cv(aTHX));
