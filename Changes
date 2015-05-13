@@ -1,5 +1,8 @@
 Revision history for Devel::Assert.
 
+1.05    Wed May 13 17:41:12 MSK 2015
+        - fix logic error in docs
+
 1.04    Mon May 11 21:10:46 MSK 2015
         - compability with PERL_OP_PARENT blead
 
