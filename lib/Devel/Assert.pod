@@ -6,11 +6,11 @@ Devel::Assert - assertions for Perl >= 5.14
 
     use Devel::Assert; # release mode, won't perform checks
 
-    assert(3 > 2); 
+    assert(3 < 2); 
 
     use Devel::Assert 'on';
 
-    assert(3 > 2); # oops, check your math
+    assert(3 < 2); # oops, check your math
 
 =head1 USAGE
 
