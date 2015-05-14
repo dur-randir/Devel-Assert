@@ -16,7 +16,8 @@ assert_checker(pTHX_ OP *op, GV *namegv, SV *ckobj) {
 
 STATIC CV*
 find_context_cv(pTHX) {
-    for (PERL_CONTEXT* cx = cxstack + cxstack_ix; cx >= cxstack; --cx) {
+    PERL_CONTEXT* cx;
+    for (cx = cxstack + cxstack_ix; cx >= cxstack; --cx) {
         if (CxTYPE(cx) == CXt_SUB || CxTYPE(cx) == CXt_FORMAT)  return cx->blk_sub.cv;
         if (CxTYPE(cx) == CXt_EVAL && cx->blk_eval.cv)          return cx->blk_eval.cv;
     }
