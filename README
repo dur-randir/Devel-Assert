@@ -47,14 +47,15 @@ DESCRIPTION
     manipulation.
 
 CHANGES FROM 0.04
-    This version significantly differs from 0.0x series. Main reason for
-    that is to get rid of the Devel::Declare dependency and to pass all the
-    parsing work to Perl itself (instead of creating own statement parser).
+    This version significantly differs from 0.04 release. The main reason
+    behind such radical change was to get rid of the Devel::Declare
+    dependency and to pass all the parsing work to Perl itself (instead of
+    creating own statement parser).
 
 SEE ALSO
     assertions - uses code attributes
 
-    Carp::Assert - requires annoying 'if DEBUG' suffix.
+    Carp::Assert - requires annoying 'if DEBUG' suffix
 
     PerlX::Assert - based on Devel::Declare
 
