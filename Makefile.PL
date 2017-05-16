@@ -13,9 +13,10 @@ WriteMakefile(
         'Test::More'        => 0,
         'Test::Exception'   => 0,
     },
-    META_MERGE      => {
-        resources     => {
-            repository  => 'https://github.com/dur-randir/Devel-Assert',
+    META_MERGE => {
+        resources => {
+            repository => 'https://github.com/dur-randir/Devel-Assert',
+            bugtracker => 'https://github.com/dur-randir/Devel-Assert/issues',
         },
     },
     ABSTRACT_FROM   => 'lib/Devel/Assert.pod',
