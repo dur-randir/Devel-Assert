@@ -18,6 +18,7 @@ WriteMakefile(
             repository => 'https://github.com/dur-randir/Devel-Assert',
             bugtracker => 'https://github.com/dur-randir/Devel-Assert/issues',
         },
+        dynamic_config => 0,
     },
     ABSTRACT_FROM   => 'lib/Devel/Assert.pod',
     LICENSE         => 'perl',
